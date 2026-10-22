@@ -1,0 +1,24 @@
+:root { color-scheme: dark; font-family: Inter, Segoe UI, Arial, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; overflow: hidden; background: #07111f; color: #eef8ff; }
+#loading { position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; background: #07111f; font-weight: 700; letter-spacing: .04em; transition: opacity .4s; }
+#loading.hidden { opacity: 0; pointer-events: none; }
+.overlay { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 24px; background: radial-gradient(circle at 50% 30%, rgba(21,94,170,.45), rgba(3,10,20,.88)); backdrop-filter: blur(7px); transition: opacity .35s, visibility .35s; }
+.overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.card { width: min(570px, 94vw); padding: 34px; border: 1px solid rgba(103,232,249,.35); border-radius: 24px; background: rgba(7,24,39,.94); box-shadow: 0 24px 80px rgba(0,0,0,.45); }
+.eyebrow { color: #67e8f9; font-size: 12px; font-weight: 800; letter-spacing: .18em; }
+h1 { margin: 8px 0 12px; font-size: clamp(38px, 7vw, 62px); line-height: 1; }
+p { color: #cbd5e1; line-height: 1.55; }
+.instructions { margin: 22px 0; padding: 2px 18px; border-left: 3px solid #22d3ee; background: rgba(15,50,72,.55); border-radius: 0 12px 12px 0; }
+button { border: 0; border-radius: 999px; padding: 13px 22px; background: linear-gradient(135deg,#22d3ee,#2563eb); color: white; font-weight: 800; cursor: pointer; box-shadow: 0 10px 30px rgba(37,99,235,.28); }
+button:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.small { font-size: 12px; color: #8393a7; }
+#hud { position: fixed; z-index: 10; top: 18px; left: 18px; right: 18px; display: flex; justify-content: space-between; pointer-events: none; }
+.brand { display: flex; flex-direction: column; padding: 10px 15px; border: 1px solid rgba(103,232,249,.25); border-radius: 14px; background: rgba(7,24,39,.76); backdrop-filter: blur(7px); }
+.brand span { font-size: 12px; color: #8adff0; }
+#helpButton { pointer-events: auto; width: 42px; height: 42px; padding: 0; font-size: 20px; }
+#customEnterVR { position: fixed; z-index: 11; right: 18px; bottom: 18px; }
+#toast { position: fixed; z-index: 40; left: 50%; bottom: 82px; transform: translate(-50%,20px); opacity: 0; padding: 12px 18px; border-radius: 12px; background: #7f1d1d; transition: .25s; pointer-events: none; }
+#toast.show { opacity: 1; transform: translate(-50%,0); }
+a-scene { width: 100vw; height: 100vh; }
+@media (max-width: 640px) { .card { padding: 24px; } .brand span { display: none; } }

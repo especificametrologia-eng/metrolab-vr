@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <title>MetrolabVR | Explorador del multimetro</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div id="loading">Cargando MetrolabVR...</div>
+  <div id="welcome" class="overlay">
+    <section class="card">
+      <div class="eyebrow">LABORATORIO VIRTUAL</div>
+      <h1>MetrolabVR</h1>
+      <p>Explora las partes principales de un multimetro digital y aprende para que se utiliza cada una.</p>
+      <div class="instructions">
+        <p><strong>En computador:</strong> arrastra para mirar y haz clic en los puntos azules.</p>
+        <p><strong>En Meta Quest 2:</strong> abre esta pagina en Browser, pulsa Entrar en VR y apunta con el controlador.</p>
+      </div>
+      <button id="startButton">Comenzar exploracion</button>
+      <p class="small">Experiencia educativa. No reemplaza las normas de seguridad ni el manual del fabricante.</p>
+    </section>
+  </div>
+
+  <div id="hud">
+    <div class="brand"><strong>MetrolabVR</strong><span>Explorador del multimetro</span></div>
+    <button id="helpButton" aria-label="Mostrar ayuda">?</button>
+  </div>
+
+  <a-scene id="scene" webxr="optionalFeatures: local-floor, bounded-floor, hand-tracking; referenceSpaceType: local-floor"
+    renderer="colorManagement: true; physicallyCorrectLights: true; antialias: true"
+    vr-mode-ui="enabled: true; enterVRButton: #customEnterVR" loading-screen="enabled: false">
+
+    <a-assets>
+      <a-mixin id="hotspot" geometry="primitive: sphere; radius: 0.025" material="color: #38BDF8; emissive: #0EA5E9; emissiveIntensity: 0.7; opacity: 0.92" class="clickable" hotspot></a-mixin>
+      <a-mixin id="label" text="align: center; color: #E8F2FF; width: 0.62; font: https://cdn.aframe.io/fonts/Roboto-msdf.json" material="color: #10223A; opacity: 0.94; transparent: true" geometry="primitive: plane; width: 0.48; height: 0.075"></a-mixin>
+    </a-assets>
+
+    <a-sky color="#07111F"></a-sky>
+    <a-entity light="type: hemisphere; color: #CDE7FF; groundColor: #15243A; intensity: 1.2"></a-entity>
+    <a-entity light="type: directional; color: #FFFFFF; intensity: 1.8; castShadow: true" position="-2 4 2" rotation="-35 -25 0"></a-entity>
+    <a-entity light="type: point; color: #38BDF8; intensity: 1.2; distance: 6" position="0 2 -1"></a-entity>
+
+    <!-- Laboratorio -->
+    <a-plane rotation="-90 0 0" width="9" height="9" color="#182536" shadow="receive: true"></a-plane>
+    <a-plane position="0 2.4 -3.7" width="9" height="4.8" color="#0B1728"></a-plane>
+    <a-box position="0 0.78 -1.35" width="1.9" height="0.09" depth="0.9" color="#155EAA" shadow="cast: true; receive: true"></a-box>
+    <a-box position="-0.80 0.38 -1.68" width="0.08" height="0.76" depth="0.08" color="#293443" shadow="cast: true"></a-box>
+    <a-box position="0.80 0.38 -1.68" width="0.08" height="0.76" depth="0.08" color="#293443" shadow="cast: true"></a-box>
+    <a-box position="-0.80 0.38 -1.02" width="0.08" height="0.76" depth="0.08" color="#293443" shadow="cast: true"></a-box>
+    <a-box position="0.80 0.38 -1.02" width="0.08" height="0.76" depth="0.08" color="#293443" shadow="cast: true"></a-box>
+
+    <!-- Multimetro inclinado -->
+    <a-entity id="multimeter" position="0 1.13 -1.34" rotation="-18 0 0" scale="1.35 1.35 1.35">
+      <a-box width="0.48" height="0.72" depth="0.105" color="#101820" position="0 0 0" material="roughness: 0.55" shadow="cast: true"></a-box>
+      <a-box width="0.425" height="0.665" depth="0.117" color="#F2BF24" position="0 0 0.008" material="roughness: 0.42"></a-box>
+      <a-box width="0.365" height="0.59" depth="0.128" color="#1E293B" position="0 0 0.016" material="roughness: 0.45"></a-box>
+      <a-box width="0.30" height="0.13" depth="0.14" color="#9FBDAE" position="0 0.205 0.025" material="roughness: 0.3"></a-box>
+      <a-text value="12.48" align="right" color="#102B24" width="0.47" position="0.055 0.205 0.101"></a-text>
+      <a-text value="V DC" align="left" color="#102B24" width="0.17" position="-0.137 0.247 0.102"></a-text>
+      <a-cylinder radius="0.102" height="0.035" rotation="90 0 0" color="#090D12" position="0 -0.035 0.09"></a-cylinder>
+      <a-box width="0.027" height="0.085" depth="0.045" color="#F8FAFC" position="0 0.005 0.115" rotation="0 0 0"></a-box>
+      <a-text value="OFF  V  A  ohm" align="center" color="#CBD5E1" width="0.35" position="0 -0.17 0.085"></a-text>
+      <a-box width="0.11" height="0.045" depth="0.035" color="#334155" position="-0.12 0.095 0.095"></a-box>
+      <a-text value="HOLD" align="center" color="#FFFFFF" width="0.14" position="-0.12 0.095 0.115"></a-text>
+      <a-cylinder radius="0.027" height="0.025" rotation="90 0 0" color="#111827" position="-0.155 -0.275 0.09"></a-cylinder>
+      <a-cylinder radius="0.027" height="0.025" rotation="90 0 0" color="#111827" position="-0.052 -0.275 0.09"></a-cylinder>
+      <a-cylinder radius="0.027" height="0.025" rotation="90 0 0" color="#111827" position="0.052 -0.275 0.09"></a-cylinder>
+      <a-cylinder radius="0.027" height="0.025" rotation="90 0 0" color="#111827" position="0.155 -0.275 0.09"></a-cylinder>
+      <a-ring radius-inner="0.021" radius-outer="0.027" color="#EF4444" position="0.052 -0.275 0.107"></a-ring>
+      <a-ring radius-inner="0.021" radius-outer="0.027" color="#EF4444" position="0.155 -0.275 0.107"></a-ring>
+      <a-text value="10A     mA      COM      V" align="center" color="#E2E8F0" width="0.38" position="0 -0.333 0.092"></a-text>
+
+      <a-sphere mixin="hotspot" position="0 0.205 0.19" data-key="display"></a-sphere>
+      <a-sphere mixin="hotspot" position="0 -0.035 0.22" data-key="dial"></a-sphere>
+      <a-sphere mixin="hotspot" position="-0.12 0.095 0.18" data-key="hold"></a-sphere>
+      <a-sphere mixin="hotspot" position="-0.155 -0.275 0.17" data-key="10a"></a-sphere>
+      <a-sphere mixin="hotspot" position="-0.052 -0.275 0.17" data-key="ma"></a-sphere>
+      <a-sphere mixin="hotspot" position="0.052 -0.275 0.17" data-key="com"></a-sphere>
+      <a-sphere mixin="hotspot" position="0.155 -0.275 0.17" data-key="vohm"></a-sphere>
+    </a-entity>
+
+    <!-- Panel informativo -->
+    <a-entity id="infoPanel" position="0 1.7 -0.72" visible="false" look-at-camera>
+      <a-plane width="1.18" height="0.61" color="#071827" opacity="0.97" material="transparent: true" geometry="primitive: plane; width: 1.18; height: 0.61" shadow="cast: true"></a-plane>
+      <a-plane width="0.018" height="0.61" color="#22D3EE" position="-0.58 0 0.006"></a-plane>
+      <a-text id="infoTitle" value="Parte" color="#67E8F9" width="1.05" anchor="center" align="left" position="-0.51 0.215 0.012"></a-text>
+      <a-text id="infoUse" value="Funcion" color="#F8FAFC" width="1.0" anchor="center" align="left" wrap-count="46" position="-0.51 0.08 0.012"></a-text>
+      <a-text id="infoSafety" value="Precaucion" color="#FBBF24" width="1.0" anchor="center" align="left" wrap-count="50" position="-0.51 -0.145 0.012"></a-text>
+      <a-text value="Apunta a otra zona para continuar" color="#94A3B8" width="0.65" align="center" position="0 -0.26 0.012"></a-text>
+    </a-entity>
+
+    <a-entity position="0 2.2 -2.0">
+      <a-text value="EXPLORADOR DEL MULTIMETRO" align="center" color="#E6F6FF" width="2.8"></a-text>
+      <a-text value="Selecciona los puntos azules" align="center" color="#67E8F9" width="1.5" position="0 -0.18 0"></a-text>
+    </a-entity>
+
+    <!-- Rig de usuario -->
+    <a-entity id="rig" position="0 0 1.05">
+      <a-camera id="camera" position="0 1.62 0" look-controls wasd-controls="acceleration: 14">
+        <a-entity id="gaze" cursor="fuse: false; rayOrigin: mouse" raycaster="objects: .clickable" position="0 0 -1"></a-entity>
+      </a-camera>
+      <a-entity laser-controls="hand: left" raycaster="objects: .clickable; far: 8" line="color: #38BDF8; opacity: 0.75"></a-entity>
+      <a-entity laser-controls="hand: right" raycaster="objects: .clickable; far: 8" line="color: #38BDF8; opacity: 0.75"></a-entity>
+    </a-entity>
+  </a-scene>
+
+  <button id="customEnterVR">Entrar en VR</button>
+  <div id="toast" role="status"></div>
+</body>
+</html>
